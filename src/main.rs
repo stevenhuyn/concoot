@@ -22,8 +22,13 @@ fn main() -> Result<(), std::io::Error>{
     }
 
     // Write to file
-    let mut file = fs::File::create("output.txt").unwrap();
-    file.write_all(res.as_bytes()).unwrap();
+    let args = std::env::args().collect::<Vec<String>>();
+    if args.len() >= 2 && args[1] == "c" {
+        println!("{}", res);
+    } else {
+        let mut file = fs::File::create("output.txt").unwrap();
+        file.write_all(res.as_bytes()).unwrap();
+    }
 
     Ok(())
 }
