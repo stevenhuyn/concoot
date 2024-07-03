@@ -16,14 +16,26 @@ README.md
 ```rust
 # concoot.exe
 
+Personal tool for uploading codebase into LLMs for querying.
+
 Installing
 ```
 cargo install --path .
 ```
 
+You can also do
+```
+cargo install --git https://github.com/stevenhuyn/concoot.git
+```
+
 Now you can use 
 ```
 concoot
+```
+
+How to copy to clipboard? (Windows + CMD)
+```cmd
+concoot c | clip
 ```
 
 And it'll spit out an `output.txt` that you can put inside your LLM to help you query your own codebase!
@@ -39,7 +51,7 @@ use walkdir::WalkDir;
 // smthn like this. u need to add error handling
 fn main() -> Result<(), std::io::Error>{
     let here = fs::canonicalize(".").unwrap();
-    let re = Regex::new(r"(\.rs|Cargo.toml|\.md)$").unwrap();
+    let re = Regex::new(r"(\.rs|Cargo.toml|\.md|\.wgsl|\.ts|\.tsx)$").unwrap();
 
     let files = find_files(here.clone(), re).unwrap();
 
