@@ -7,6 +7,11 @@ Installing
 cargo install --path .
 ```
 
+You can also do
+```
+cargo install --git https://github.com/stevenhuyn/concoot.git
+```
+
 Now you can use 
 ```
 concoot
