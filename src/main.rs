@@ -6,7 +6,7 @@ use walkdir::WalkDir;
 // smthn like this. u need to add error handling
 fn main() -> Result<(), std::io::Error>{
     let here = fs::canonicalize(".").unwrap();
-    let re = Regex::new(r"(\.rs|Cargo.toml|\.md|\.wgsl|\.ts|\.tsx)$").unwrap();
+    let re = Regex::new(r"(\.rs|Cargo.toml|\.md|\.wgsl|\.ts|\.tsx|\.py)$").unwrap();
 
     let files = find_files(here.clone(), re).unwrap();
 
