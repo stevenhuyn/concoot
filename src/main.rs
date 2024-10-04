@@ -1,12 +1,12 @@
-use std::{fs, io::Write, path::PathBuf};
+use std::{error::Error, fs, io::Write, path::PathBuf};
 
+use ignore::Walk;
 use regex::Regex;
-use walkdir::WalkDir;
 
 // smthn like this. u need to add error handling
 fn main() -> Result<(), std::io::Error>{
     let here = fs::canonicalize(".").unwrap();
-    let re = Regex::new(r"(\.rs|Cargo.toml|\.md|\.wgsl|\.ts|\.tsx|\.py)$").unwrap();
+    let re = Regex::new(r"(\.rs|Cargo.toml|\.md|\.wgsl|\.ts|\.tsx|\.py|pyproject.toml)$").unwrap();
 
     let files = find_files(here.clone(), re).unwrap();
 
@@ -34,9 +34,9 @@ fn main() -> Result<(), std::io::Error>{
 }
 
 
-fn find_files(dir: PathBuf, regex: Regex) -> Result<Vec<PathBuf>, std::io::Error> {
+fn find_files(dir: PathBuf, regex: Regex) -> Result<Vec<PathBuf>, Box<dyn Error>> {
     let mut files = Vec::new();
-    for entry in WalkDir::new(dir) {
+    for entry in Walk::new(dir) {
         let entry = entry?.path().to_path_buf();
         if entry.is_dir() {
             continue;
@@ -45,6 +45,7 @@ fn find_files(dir: PathBuf, regex: Regex) -> Result<Vec<PathBuf>, std::io::Error
         if regex.is_match(entry.to_str().unwrap()) {
             files.push(entry);
         }
+
     }
 
     Ok(files)
